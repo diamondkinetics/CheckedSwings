@@ -32,11 +32,11 @@ and synchronization of the data with SwingTracker sensor data and video. The
 hitter was instructed to take full swings and hit the ball hard when the green
 light was on, and to check the swing when the red light appeared.
 
-### Random Checked Swing Process
-
 ![Circuit picture](circuit_picture.png)
 
 ![Circuit diagram](circuit_diagram.png)
+
+### Random Checked Swing Process
 
 For normal swings, the logic proceeded as follows:
 1. The Raspberry Pi normally displayed the green LED
@@ -57,3 +57,59 @@ Successfully checked swing (note the thumbs-up at the end indicating the hitter
 Failure to check swing (in this case, the thumbs-up means the hitter saw the
   light and couldn't check):
   <video src="failed.mp4" width="320" height="200" controls preload></video>
+
+## Results
+
+Our hitter's commit point was around 280ms before plate. This is over 100ms
+earlier than we had previously estimated. This is due to a number of factors,
+both physical and mental. Below is a histogram of checked swing attempts, 77 in
+total, with delays from 12-243ms, which corresponds to 196-440ms before plate:
+
+![Histogram of checked swing attempts](histogram.png)
+
+As you can see, all checks were successful if the batter had at least 380ms
+before plate, and all checks were unsuccessful if he had less than 240ms. The
+plot above is from 0 to 454ms to represent the flight time of the ball from
+release to plate. In our case, this was 60mph at 40' which is equivalent to about
+80mph at 55'.
+
+Looking at the colored dots next to a diagram of pitch trajectories from
+[Baseball Savant](http://baseballsavant.com), you can see what the different
+pitches look like at the recognition point and our earlier hypothesis of commit
+point. However, the commit point is likely more than 100ms earlier, which
+increases the likelihood that two pitches share a tunnel at that point.
+
+![Pitch trajectories overlaid with commit point information](trajectory.png)
+
+### What factors affect the commit point?
+
+When trying to account for the 100ms we were off by when estimating the commit
+point, we came up with the following factors that could all play a role:
+* The biomechanics of a swing start before the bat moves, so trigger to impact
+time may not be the best metric to start with since it only measures the time
+of the swing from when the bat starts to move
+* Our hitter's mindset was to hit with maximum effort; expecting a need to check
+swing could push the commit point farther, for example, in counts when a batter
+would expect an offspeed or breaking pitch
+* Pitch location varied in our experiment, so our hitter's instinct to swing or
+check based on pitch location sometimes conflicted with the indication from the
+LEDs
+
+### Future Work
+
+To further refine our understanding of the commit point, here are some ideas for
+future research:
+* Repeat this study with more hitters
+* Isolate factors that affect the commit point such as pitch location
+* Collect organic check swing data in-game or in simulated games using swing
+sensors and/or high speed cameras
+* Research a better metric than trigger to impact time for measuring the time of
+a swing from any body movement to impact
+* Evaluate the theoretical latest commit point using a physics and biomechanics
+model of a swing
+
+## Acknowledgements
+
+Thank you to Russell Clark, Laura Clark, Alyssa Clark, and Dr. Minmin Zhang for
+their assistance with data collection and analysis. Thank you also to Brian
+Barca of Training KAMP Baseball and Softball for use of his facilities.
