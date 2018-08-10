@@ -52,7 +52,7 @@ turned on, signaling the batter to check his swing.
 
 Successfully checked swing (note the thumbs-up at the end indicating the hitter
   checked because the light came on):
-  <video src="check.mp4" width="320" height="200" controls preload></video>
+  <video src="check.webm" width="320" height="200" controls preload></video>
 
 Failure to check swing (in this case, the thumbs-up means the hitter saw the
   light and couldn't check):
